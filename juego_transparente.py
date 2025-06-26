@@ -8,7 +8,7 @@ import win32con
 import win32gui
 import sys
 
-BASE_PATH = r"C:\Users\Usuario\Documents\AproyectsVScode\Python\Avirusgame"
+BASE_PATH = r"C:\Users\Usuario\Documents\AproyectsVScode\Python\Avirusgame\ALittleHappyMouse"
 
 pygame.init()
 

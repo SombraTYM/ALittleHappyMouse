@@ -6,7 +6,7 @@ import os
 import subprocess
 import sys
 
-BASE_PATH = r"C:\Users\Usuario\Documents\AproyectsVScode\Python\Avirusgame"
+BASE_PATH = r"C:\Users\Usuario\Documents\AproyectsVScode\Python\Avirusgame\ALittleHappyMouse"
 python_path = sys.executable
 
 pygame.init()
