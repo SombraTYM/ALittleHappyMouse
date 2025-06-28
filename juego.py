@@ -41,6 +41,9 @@ duration = 150  # 3 minutos
 ventana_pos_original = None
 last_move = 0
 last_invert_time = 0  # cooldown para inversión colores
+audio_path = os.path.join(BASE_PATH, "piggy-nor-official-themE.mp3")
+pygame.mixer.music.load(audio_path)
+pygame.mixer.music.play()
 
 def mover_ventana_random():
     if not win32gui:

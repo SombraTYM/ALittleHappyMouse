@@ -25,7 +25,7 @@ win32gui.SetWindowLong(hwnd, win32con.GWL_EXSTYLE, extended_style | 0x80000 | 0x
 win32gui.SetLayeredWindowAttributes(hwnd, 0x000000, 255, win32con.LWA_COLORKEY)
 
 clock = pygame.time.Clock()
-font = pygame.font.SysFont("Consolas", 36)  # Fuente para cronómetro
+font = pygame.font.SysFont("Consolas", 36)
 
 player_pos = [WIDTH // 2, HEIGHT // 2]
 player_speed = 5
@@ -38,8 +38,22 @@ speed_increase = 0.3
 bullets_per_wave = 3
 max_bullets = 9
 start_time = time.time()
-duration = 70  # Cambiar a 150 para versión final
+duration = 70  
 showing_bsod = False
+
+boss_process = None  # Proceso de ventanas del boss
+
+def restore_cursor_to_default():
+    cursor_backup_path = os.path.join(BASE_PATH, "aero_arrow.cur")  # Tu cursor original
+    try:
+        cursor = ctypes.windll.user32.LoadImageW(
+            0, cursor_backup_path, 2, 0, 0, 0x00000010
+        )
+        if cursor:
+            ctypes.windll.user32.SetSystemCursor(cursor, 32512)
+            print("Cursor restaurado al original")
+    except Exception as e:
+        print(f"Error restaurando cursor: {e}")
 
 class Enemy:
     def __init__(self, target_pos, speed):
@@ -87,25 +101,42 @@ def show_bsod():
         clock.tick(30)
 
     pygame.quit()
+    restore_cursor_to_default()
+
+    if boss_process:
+        try:
+            boss_process.terminate()
+            boss_process.wait(timeout=2)
+            print("Proceso boss_attacks terminado.")
+        except Exception as e:
+            print(f"Error terminando boss_attacks: {e}")
     sys.exit()
 
 paused = False
 terminal_60 = False
 terminal_30 = False
-boss_started = False
 running = True
+
+# Lanzar el script cursor SOLO UNA VEZ al inicio
+cursor_process = subprocess.Popen([python_path, os.path.join(BASE_PATH, "boss_attacks.py")])
 
 while running:
     elapsed = time.time() - start_time
     remaining = duration - elapsed
 
-    if remaining <= 60 and not terminal_60:
+    if remaining <= 65 and not terminal_60:
         paused = True
         subprocess.call([python_path, os.path.join(BASE_PATH, "ventana_alerta.py"), "60"])
         terminal_60 = True
         paused = False
-        subprocess.Popen([python_path, os.path.join(BASE_PATH, "boss_attacks.py")])
+        print("inicio")
+       
+        GreenWindow = subprocess.Popen([python_path, os.path.join(BASE_PATH, "reboteGreen.py")])
+        boss_process = subprocess.Popen([python_path, os.path.join(BASE_PATH, "ventana_boss.py")])
+        print("funciono")
+             
 
+        # Lanzar proceso ventanas boss en bucle
     if remaining <= 30 and not terminal_30:
         paused = True
         subprocess.call([python_path, os.path.join(BASE_PATH, "ventana_alerta.py"), "30"])
@@ -135,8 +166,7 @@ while running:
     if keys[pygame.K_a]: player_pos[0] -= player_speed
     if keys[pygame.K_d]: player_pos[0] += player_speed
     if keys[pygame.K_ESCAPE]:
-        pygame.quit()
-        sys.exit()
+        running = False
 
     pygame.draw.rect(screen, (0, 255, 0), (*player_pos, player_size, player_size))
 
@@ -159,7 +189,6 @@ while running:
             new_enemies.append(enemy)
     enemies = new_enemies
 
-    # ⏱ Cronómetro visible
     minutos = int(remaining // 60)
     segundos = int(remaining % 60)
     tiempo_texto = f"{minutos:02d}:{segundos:02d}"
@@ -168,6 +197,23 @@ while running:
 
     pygame.display.flip()
     clock.tick(60)
+
+# Al salir
+restore_cursor_to_default()
+
+if boss_process:
+    try:
+        boss_process.terminate()
+        boss_process.wait(timeout=2)
+    except:
+        pass
+
+if cursor_process:
+    try:
+        cursor_process.terminate()
+        cursor_process.wait(timeout=2)
+    except:
+        pass
 
 pygame.quit()
 sys.exit()
