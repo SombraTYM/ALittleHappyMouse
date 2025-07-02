@@ -10,7 +10,7 @@ pygame.mixer.init()
 
 # Tamaño ventana
 WIDTH, HEIGHT = 250, 150
-COLOR = (0, 255, 0)  # Verde chill
+COLOR = (0, 255, 0)  # Verde 
 
 # Sonido de rebote
 rebote_sound = pygame.mixer.Sound(os.path.join(os.path.dirname(__file__), "rebote de coso ese.mp3"))

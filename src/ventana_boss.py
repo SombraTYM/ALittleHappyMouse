@@ -19,13 +19,13 @@ font_base = pygame.font.SysFont("Consolas", 6)
 text_color = (255, 255, 255)
 outline_color = (0, 0, 0)
 
-fondo_img_original = pygame.image.load(os.path.join(BASE_PATH, "12 sin título_065805.png"))
+fondo_img_original = pygame.image.load(os.path.join(BASE_PATH, "Enemy.png"))
 
 mensajes = [
-    "¡¡¡¿¿¿SISTEM32 SERA IMPOSTANTE???!!!",
+    "¡¡SISTEM32, ¿¿SERA IMPOSTANTE??!!",
     "SOLO MUERETE",
     "ERROR 0x0000B0SS",
-    "¿¿¿TE ESTAS ESTRESANDO???",
+    "¿¿TE ESTAS ESTRESANDO??",
     "NO TE LIBRARAS DE MI",
     "¡¡ERES UN IDIOTA!!",
     "SOLO RINDETE",

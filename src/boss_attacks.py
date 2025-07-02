@@ -3,11 +3,15 @@ import os
 import sys
 import ctypes
 
-BASE_PATH = os.path.dirname(os.path.abspath(__file__))
+# Agregar la raíz del proyecto al path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+from main import get_cursor_path  # Asegúrate de que main.py esté en la carpeta padre
+
+# Lista de cursores alternables
 cursor_files = [
-    os.path.join(BASE_PATH, "cursor.cur"),
-    os.path.join(BASE_PATH, "cursor2.cur"),
+    get_cursor_path("cursor.cur"),
+    get_cursor_path("cursor2.cur"),
 ]
 
 def set_cursor(cur_path):
@@ -30,4 +34,3 @@ while running:
         cursor_index = (cursor_index + 1) % len(cursor_files)
         set_cursor(cursor_files[cursor_index])
         last_change = current_time
-    time.sleep(0.1)

@@ -42,6 +42,10 @@ duration = 70
 showing_bsod = False
 
 boss_process = None  # Proceso de ventanas del boss
+audio_path = os.path.join(BASE_PATH, "gameplaycleanprototipe.mp3")
+pygame.mixer.music.load(audio_path)
+pygame.mixer.music.play()
+
 
 def restore_cursor_to_default():
     cursor_backup_path = os.path.join(BASE_PATH, "aero_arrow.cur")  # Tu cursor original
